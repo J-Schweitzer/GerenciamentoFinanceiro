@@ -9,8 +9,10 @@ CREATE TABLE usuario (
 CREATE TABLE categoria (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
+	tipo VARCHAR(10) CHECK (tipo IN ('entrada', 'saida')),
     usuario_id INT REFERENCES usuario(id) ON DELETE CASCADE
 );
+
 
 -- Tabela de contas
 CREATE TABLE conta (
@@ -20,14 +22,16 @@ CREATE TABLE conta (
     usuario_id INT REFERENCES usuario(id) ON DELETE CASCADE
 );
 
+ALTER TABLE conta RENAME COLUMN saldo_inicial TO saldo;
+
 -- Tabela de transações
 CREATE TABLE transacao (
     id SERIAL PRIMARY KEY,
-    tipo VARCHAR(10) CHECK (tipo IN ('receita', 'despesa')) NOT NULL,
-    valor NUMERIC(10,2) NOT NULL,
-    data DATE NOT NULL,
     descricao VARCHAR(200),
-    categoria_id INT REFERENCES categoria(id) ON DELETE SET NULL,
-    conta_id INT REFERENCES conta(id) ON DELETE SET NULL,
-    usuario_id INT REFERENCES usuario(id) ON DELETE CASCADE
+    valor DECIMAL(10,2) NOT NULL,
+    data DATE NOT NULL,
+    tipo VARCHAR(10) CHECK (tipo IN ('entrada', 'saida')),
+    conta_id INT NOT NULL REFERENCES conta(id),
+    categoria_id INT NOT NULL REFERENCES categoria(id),
+    usuario_id INT NOT NULL REFERENCES usuario(id)
 );
