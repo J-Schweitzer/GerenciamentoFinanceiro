@@ -1,4 +1,4 @@
-💰 Sistema de Controle Financeiro
+-- Sistema de Controle Financeiro
 Projeto desenvolvido em Java utilizando o padrão MVC e banco de dados PostgreSQL, com foco na gestão financeira pessoal.
 
 🚀 Funcionalidades
