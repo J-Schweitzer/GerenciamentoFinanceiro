@@ -1,28 +1,25 @@
--- Sistema de Controle Financeiro
-Projeto desenvolvido em Java utilizando o padrão MVC e banco de dados PostgreSQL, com foco na gestão financeira pessoal.
+# 💰 Sistema de Controle Financeiro Pessoal
 
-🚀 Funcionalidades
+Projeto de um sistema de controle financeiro pessoal desenvolvido em Java, utilizando o padrão de arquitetura MVC e banco de dados PostgreSQL.
 
-✅ Cadastro de usuários com autenticação.
+## 🏗️ Tecnologias Utilizadas
 
-✅ Cadastro de contas bancárias.
+- ☕ Java (JDK 11+ ou 17+)
+- 🗄️ PostgreSQL
+- 🔌 JDBC (Driver PostgreSQL)
+- 🧠 Padrão de Arquitetura MVC
 
-✅ Cadastro de categorias de despesas e receitas.
+---
 
-✅ Registro de transações (receitas e despesas).
+## 🎯 Funcionalidades
 
-✅ Relatórios de saldo por conta e por categoria.
+- 🔐 Cadastro e login de usuários
+- 🏦 Gerenciamento de contas (ex.: carteira, banco, poupança)
+- 🗂️ Gerenciamento de categorias de transações (ex.: alimentação, transporte)
+- 💸 Registro de transações (receitas e despesas)
+- 📊 Relatórios de saldo por conta e por período
+- 🔍 Filtro de transações por data, categoria e tipo
+- 🔒 Dados isolados por usuário (multiusuário)
 
-✅ Controle de dados isolados por usuário.
-
-🛠️ Tecnologias Utilizadas
-🧠 Java (JDK 17+)
-
-🗄️ PostgreSQL + pgAdmin
-
-🔗 JDBC Driver PostgreSQL
-
-🏗️ Padrão MVC (Model - View - Controller)
-
-💻 IDE: IntelliJ, VSCode ou Eclipse
+---
 
