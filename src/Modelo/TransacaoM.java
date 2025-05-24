@@ -4,7 +4,6 @@
  */
 package Modelo;
 
-import java.time.LocalDate;
 
 /**
  *
@@ -12,20 +11,18 @@ import java.time.LocalDate;
  */
 public class TransacaoM {
     private int id;
-    private String tipo; // receita ou despesa
-    private double valor;
-    private LocalDate data;
     private String descricao;
+    private double valor;
+    private String data; // Formato recomendado: "yyyy-MM-dd"
     private int categoriaId;
     private int contaId;
     private int usuarioId;
 
-    public TransacaoM(int id, String tipo, double valor, LocalDate data, String descricao, int categoriaId, int contaId, int usuarioId) {
+    public TransacaoM(int id, String descricao, double valor, String data, int categoriaId, int contaId, int usuarioId) {
         this.id = id;
-        this.tipo = tipo;
+        this.descricao = descricao;
         this.valor = valor;
         this.data = data;
-        this.descricao = descricao;
         this.categoriaId = categoriaId;
         this.contaId = contaId;
         this.usuarioId = usuarioId;
@@ -39,12 +36,12 @@ public class TransacaoM {
         this.id = id;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public double getValor() {
@@ -55,20 +52,12 @@ public class TransacaoM {
         this.valor = valor;
     }
 
-    public LocalDate getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(String data) {
         this.data = data;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
     }
 
     public int getCategoriaId() {
@@ -94,6 +83,6 @@ public class TransacaoM {
     public void setUsuarioId(int usuarioId) {
         this.usuarioId = usuarioId;
     }
-    
+
     
 }

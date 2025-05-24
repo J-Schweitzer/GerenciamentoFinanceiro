@@ -5,126 +5,160 @@
 package Modelo.DAO;
 
 import Modelo.UsuarioM;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 /**
- *
+    *Connection getConnection()
  * @author Joao
  */
 public class UsuarioDAO {
-    // Cadastrar usuário
+
+    private Connection conn;
+
+    public UsuarioDAO() throws SQLException {
+        conn = DBConnection.getConnection();
+    }
+
+    // ✅ Cadastrar usuário
     public boolean cadastrar(UsuarioM usuario) {
-        String sql = "INSERT INTO usuario (nome, email, senha) VALUES (?, ?, ?)";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
+        String sql = "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, usuario.getNome());
             stmt.setString(2, usuario.getEmail());
             stmt.setString(3, usuario.getSenha());
-
             stmt.executeUpdate();
+            stmt.close();
             return true;
-
         } catch (SQLException e) {
             System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
             return false;
         }
     }
 
-    // Login
-    public UsuarioM login(String email, String senha) {
-        String sql = "SELECT * FROM usuario WHERE email = ? AND senha = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setString(1, email);
-            stmt.setString(2, senha);
-
+    // ✅ Buscar por ID
+    public UsuarioM buscarPorId(int id) {
+        String sql = "SELECT * FROM usuarios WHERE id = ?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
-
             if (rs.next()) {
                 return new UsuarioM(
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getString("email"),
-                        rs.getString("senha")
+                    rs.getInt("id"),
+                    rs.getString("nome"),
+                    rs.getString("email"),
+                    rs.getString("senha")
                 );
             }
-
+            rs.close();
+            stmt.close();
         } catch (SQLException e) {
-            System.out.println("Erro no login: " + e.getMessage());
+            System.out.println("Erro ao buscar usuário por ID: " + e.getMessage());
         }
-
         return null;
     }
 
-    // Listar todos os usuários
+    // ✅ Buscar por email
+    public UsuarioM buscarPorEmail(String email) {
+        String sql = "SELECT * FROM usuarios WHERE email = ?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new UsuarioM(
+                    rs.getInt("id"),
+                    rs.getString("nome"),
+                    rs.getString("email"),
+                    rs.getString("senha")
+                );
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar usuário por email: " + e.getMessage());
+        }
+        return null;
+    }
+
+    // ✅ Autenticar (login)
+    public UsuarioM autenticar(String email, String senha) {
+        String sql = "SELECT * FROM usuarios WHERE email = ? AND senha = ?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, email);
+            stmt.setString(2, senha);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new UsuarioM(
+                    rs.getInt("id"),
+                    rs.getString("nome"),
+                    rs.getString("email"),
+                    rs.getString("senha")
+                );
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            System.out.println("Erro na autenticação: " + e.getMessage());
+        }
+        return null;
+    }
+
+    // ✅ Listar todos os usuários
     public List<UsuarioM> listarTodos() {
         List<UsuarioM> lista = new ArrayList<>();
-        String sql = "SELECT * FROM usuario";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
+        String sql = "SELECT * FROM usuarios";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                UsuarioM usuario = new UsuarioM(
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getString("email"),
-                        rs.getString("senha")
+                UsuarioM u = new UsuarioM(
+                    rs.getInt("id"),
+                    rs.getString("nome"),
+                    rs.getString("email"),
+                    rs.getString("senha")
                 );
-                lista.add(usuario);
+                lista.add(u);
             }
-
+            rs.close();
+            stmt.close();
         } catch (SQLException e) {
             System.out.println("Erro ao listar usuários: " + e.getMessage());
         }
-
         return lista;
     }
 
-    // Buscar usuário por ID
-    public UsuarioM buscarPorId(int id) {
-        String sql = "SELECT * FROM usuario WHERE id = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setInt(1, id);
-
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return new UsuarioM(
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getString("email"),
-                        rs.getString("senha")
-                );
-            }
-
+    // ✅ Atualizar usuário
+    public boolean atualizar(UsuarioM usuario) {
+        String sql = "UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE id = ?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getEmail());
+            stmt.setString(3, usuario.getSenha());
+            stmt.setInt(4, usuario.getId());
+            stmt.executeUpdate();
+            stmt.close();
+            return true;
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar usuário: " + e.getMessage());
+            System.out.println("Erro ao atualizar usuário: " + e.getMessage());
+            return false;
         }
-
-        return null;
     }
 
-    // Remover usuário
+    // ✅ Remover usuário
     public boolean remover(int id) {
-        String sql = "DELETE FROM usuario WHERE id = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
+        String sql = "DELETE FROM usuarios WHERE id = ?";
+        try {
+            PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);
             stmt.executeUpdate();
+            stmt.close();
             return true;
-
         } catch (SQLException e) {
             System.out.println("Erro ao remover usuário: " + e.getMessage());
             return false;

@@ -15,7 +15,7 @@ public class DBConnection {
 
     private static final String URL = "jdbc:postgresql://localhost:5432/financeiro"; // Banco chamado "financeiro"
     private static final String USER = "postgres"; // Seu usuário do PostgreSQL
-    private static final String PASSWORD = "xxxxxx"; // Sua senha do PostgreSQL
+    private static final String PASSWORD = "91257590"; // Sua senha do PostgreSQL
 
     public static Connection getConnection() throws SQLException {
         try {
