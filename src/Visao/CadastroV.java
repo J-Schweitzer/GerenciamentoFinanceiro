@@ -5,19 +5,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
 
-public class LoginV extends JFrame {
+public class CadastroV extends JFrame {
 
     private UsuarioC usuarioController;
 
-    public LoginV() throws SQLException {
+    public CadastroV() throws SQLException {
         usuarioController = new UsuarioC();
         initComponents();
     }
 
     private void initComponents() {
-        setTitle("Login - Gerenciamento de Gastos");
-        setSize(450, 350);
-        setResizable(false);  // Desativa o redimensionamento da janela
+        setTitle("Cadastro - Gerenciamento de Gastos");
+        setSize(450, 400);
+        setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new GridBagLayout());
@@ -28,13 +28,20 @@ public class LoginV extends JFrame {
 
         getContentPane().setBackground(backgroundColor);
 
-        JLabel tituloLabel = new JLabel("Bem-vindo!");
+        JLabel tituloLabel = new JLabel("Criar Conta");
         tituloLabel.setFont(new Font("Segoe UI", Font.BOLD, 26));
         tituloLabel.setForeground(primaryColor);
 
-        JLabel subTituloLabel = new JLabel("Acesse sua conta para continuar");
+        JLabel subTituloLabel = new JLabel("Preencha seus dados abaixo");
         subTituloLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         subTituloLabel.setForeground(new Color(100, 100, 100));
+
+        JLabel labelNome = new JLabel("Nome:");
+        labelNome.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        labelNome.setForeground(textColor);
+
+        JTextField textNome = new JTextField(18);
+        textNome.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
         JLabel labelEmail = new JLabel("Email:");
         labelEmail.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -50,37 +57,38 @@ public class LoginV extends JFrame {
         JPasswordField textSenha = new JPasswordField(18);
         textSenha.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
-        JButton buttonLogin = new JButton("Entrar");
-        estilizarBotao(buttonLogin, primaryColor);
-
         JButton buttonCadastrar = new JButton("Cadastrar");
         estilizarBotao(buttonCadastrar, new Color(40, 167, 69)); // Verde
 
-        // Ações dos botões
-        buttonLogin.addActionListener(e -> {
+        JButton buttonVoltar = new JButton("Voltar");
+        estilizarBotao(buttonVoltar, primaryColor);
+
+        buttonCadastrar.addActionListener(e -> {
+            String nome = textNome.getText();
             String email = textEmail.getText();
             String senha = new String(textSenha.getPassword());
-            if (usuarioController.autenticar(email, senha) != null) {
-                JOptionPane.showMessageDialog(this, "Login bem-sucedido!");
 
-                int usuarioId = usuarioController.buscarPorEmail(email).getId();
-                DashboardV dashboard = new DashboardV(usuarioId);
-                dashboard.setVisible(true);
-                this.dispose();
+            if (usuarioController.cadastrarUsuario(nome, email, senha)) {
+                JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
+                try {
+                    LoginV login = new LoginV();
+                    login.setVisible(true);
+                    this.dispose();
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, "Erro ao abrir login: " + ex.getMessage());
+                }
             } else {
-                JOptionPane.showMessageDialog(this, "Email ou senha incorretos.");
+                JOptionPane.showMessageDialog(this, "Erro ao realizar cadastro. Tente novamente.");
             }
         });
 
-        buttonCadastrar.addActionListener(e -> {
+        buttonVoltar.addActionListener(e -> {
             try {
-                CadastroV cadastro = new CadastroV();
-                cadastro.setVisible(true);
+                LoginV login = new LoginV();
+                login.setVisible(true);
                 this.dispose();
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this,
-                        "Erro ao abrir a tela de cadastro: " + ex.getMessage(),
-                        "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Erro ao abrir login: " + ex.getMessage());
             }
         });
 
@@ -97,6 +105,15 @@ public class LoginV extends JFrame {
         add(subTituloLabel, gbc);
 
         gbc.gridwidth = 1;
+        gbc.gridy++;
+        gbc.anchor = GridBagConstraints.LINE_END;
+        add(labelNome, gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
+        add(textNome, gbc);
+
+        gbc.gridx = 0;
         gbc.gridy++;
         gbc.anchor = GridBagConstraints.LINE_END;
         add(labelEmail, gbc);
@@ -118,10 +135,10 @@ public class LoginV extends JFrame {
         gbc.gridy++;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        add(buttonLogin, gbc);
+        add(buttonCadastrar, gbc);
 
         gbc.gridy++;
-        add(buttonCadastrar, gbc);
+        add(buttonVoltar, gbc);
     }
 
     private void estilizarBotao(JButton botao, Color corFundo) {

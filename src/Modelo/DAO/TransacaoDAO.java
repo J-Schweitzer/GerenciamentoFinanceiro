@@ -28,7 +28,7 @@ public class TransacaoDAO {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, transacao.getDescricao());
             stmt.setDouble(2, transacao.getValor());
-            stmt.setDate(3, Date.valueOf(transacao.getData()));
+            stmt.setDate(3, Date.valueOf(transacao.getData())); // Certifique-se de que a data está no formato correto
             stmt.setInt(4, transacao.getCategoriaId());
             stmt.setInt(5, transacao.getContaId());
             stmt.setInt(6, transacao.getUsuarioId());

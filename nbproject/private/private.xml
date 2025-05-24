@@ -13,6 +13,13 @@
             <file>file:/C:/Users/Joao/Documents/NetBeansProjects/GerenciaGastos/src/Modelo/DAO/ContaDAO.java</file>
             <file>file:/C:/Users/Joao/Documents/NetBeansProjects/GerenciaGastos/src/Modelo/DAO/TransacaoDAO.java</file>
             <file>file:/C:/Users/Joao/Documents/NetBeansProjects/GerenciaGastos/src/Modelo/DAO/CategoriaDAO.java</file>
+            <file>file:/C:/Users/Joao/Documents/NetBeansProjects/GerenciaGastos/src/Controle/UsuarioC.java</file>
+            <file>file:/C:/Users/Joao/Documents/NetBeansProjects/GerenciaGastos/src/Controle/ContaC.java</file>
+            <file>file:/C:/Users/Joao/Documents/NetBeansProjects/GerenciaGastos/src/Controle/CategoriaC.java</file>
+            <file>file:/C:/Users/Joao/Documents/NetBeansProjects/GerenciaGastos/src/Controle/TransacaoC.java</file>
+            <file>file:/C:/Users/Joao/Documents/NetBeansProjects/GerenciaGastos/src/Visao/LoginV.java</file>
+            <file>file:/C:/Users/Joao/Documents/NetBeansProjects/GerenciaGastos/src/Visao/DashboardV.java</file>
+            <file>file:/C:/Users/Joao/Documents/NetBeansProjects/GerenciaGastos/src/Visao/CadastroV.java</file>
         </group>
     </open-files>
 </project-private>
