@@ -20,6 +20,11 @@ public class ContaM {
         this.saldo = saldo;
         this.usuarioId = usuarioId;
     }
+    
+    @Override
+    public String toString() {
+        return this.nome;
+    }
 
     public int getId() {
         return id;

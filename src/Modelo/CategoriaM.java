@@ -1,19 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Modelo;
 
 /**
- *
- * @author Joao
+ * Classe que representa uma Categoria no sistema de gerenciamento de gastos.
  */
 public class CategoriaM {
-    private int id;
-    private String nome;
-    private String tipo;
-    private int usuarioId;
+    private int id; // Identificador único da categoria
+    private String nome; // Nome da categoria
+    private String tipo; // Tipo da categoria (ex: "Receita", "Despesa")
+    private int usuarioId; // ID do usuário que possui a categoria
 
+    // Construtor
     public CategoriaM(int id, String nome, String tipo, int usuarioId) {
         this.id = id;
         this.nome = nome;
@@ -21,6 +17,7 @@ public class CategoriaM {
         this.usuarioId = usuarioId;
     }
 
+    // Getters e Setters
     public int getId() {
         return id;
     }
@@ -52,10 +49,9 @@ public class CategoriaM {
     public void setUsuarioId(int usuarioId) {
         this.usuarioId = usuarioId;
     }
-    
 
-    
-
-    
-    
+    @Override
+    public String toString() {
+        return this.nome + " (" + this.tipo + ")"; // Representação da categoria
+    }
 }

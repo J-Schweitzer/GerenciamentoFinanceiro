@@ -65,7 +65,6 @@ public class CategoriaDAO {
         return null;
     }
 
-    // ✅ Listar categorias por usuário
     public List<CategoriaM> listarPorUsuario(int usuarioId) {
         List<CategoriaM> lista = new ArrayList<>();
         String sql = "SELECT * FROM categorias WHERE usuario_id = ?";
@@ -89,6 +88,7 @@ public class CategoriaDAO {
         }
         return lista;
     }
+
 
     // ✅ Atualizar categoria
     public boolean atualizar(CategoriaM categoria) {

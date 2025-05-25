@@ -18,6 +18,8 @@ public class DashboardV extends JFrame {
     private JButton btnDadosConta;
     private JButton btnHistorico;
     private JButton btnRelatorioCategoria;
+    private JButton btnTransferencia;
+    private JButton btnCadastrarGastos;
     private CategoriaC categoriaController;
     private ContaC contaController;
     private TransacaoC transacaoController;
@@ -55,7 +57,6 @@ public class DashboardV extends JFrame {
 
         Color backgroundColor = Color.WHITE;
         Color tituloColor = new Color(33, 37, 41);
-        Color buttonColor = new Color(0, 123, 255);
         Color borderColor = new Color(108, 117, 125);
 
         // Painel superior com título
@@ -76,7 +77,8 @@ public class DashboardV extends JFrame {
         // Painel de consultas
         JPanel consultaPanel = new JPanel(new GridLayout(3, 1, 10, 10));
         consultaPanel.setBackground(backgroundColor);
-        consultaPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(borderColor), "Área de Consultas"));
+        consultaPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(borderColor), "Área de Consultas"));
 
         btnDadosConta = criarBotao("Mostrar Dados da Conta");
         btnDadosConta.addActionListener(e -> mostrarDadosConta());
@@ -90,19 +92,36 @@ public class DashboardV extends JFrame {
         btnRelatorioCategoria.addActionListener(e -> mostrarRelatorioPorCategoria());
         consultaPanel.add(btnRelatorioCategoria);
 
-        // Painel de transferências
-        JPanel transferenciaPanel = new JPanel(new GridBagLayout());
-        transferenciaPanel.setBackground(backgroundColor);
-        transferenciaPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(borderColor), "Área de Transferências"));
+        // Painel de transações
+        JPanel transacaoPanel = new JPanel(new GridLayout(2, 1, 10, 10));
+        transacaoPanel.setBackground(backgroundColor);
+        transacaoPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(borderColor), "Área de Transações"));
 
-        JLabel lblTransferencia = new JLabel("Funcionalidade de transferência ainda não adicionada.");
-        lblTransferencia.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        lblTransferencia.setForeground(tituloColor);
+        btnTransferencia = criarBotao("Realizar Transferência");
+        btnTransferencia.addActionListener(e -> {
+            try {
+                TransacaoV transacao = new TransacaoV();
+                transacao.setVisible(true);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Erro ao abrir tela de transferência: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        transacaoPanel.add(btnTransferencia);
 
-        transferenciaPanel.add(lblTransferencia);
+        btnCadastrarGastos = criarBotao("Cadastrar Gastos");
+        btnCadastrarGastos.addActionListener(e -> {
+            try {
+                CadastrarGastosV cadastrarGastos = new CadastrarGastosV(usuarioId);
+                cadastrarGastos.setVisible(true);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Erro ao abrir tela de cadastro de gastos: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        transacaoPanel.add(btnCadastrarGastos);
 
         mainPanel.add(consultaPanel);
-        mainPanel.add(transferenciaPanel);
+        mainPanel.add(transacaoPanel);
 
         add(mainPanel, BorderLayout.CENTER);
 
@@ -120,7 +139,6 @@ public class DashboardV extends JFrame {
         botao.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return botao;
     }
-
 
     private void mostrarDadosConta() {
         if (contaController == null) {

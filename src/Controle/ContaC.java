@@ -47,4 +47,32 @@ public class ContaC
     public boolean removerConta(int id) {
         return contaDAO.remover(id);
     }
+    
+    public boolean transferir(int contaOrigemId, int contaDestinoId, double valor) {
+        // Verificar se o valor é positivo
+        if (valor <= 0) {
+            System.out.println("O valor da transferência deve ser positivo.");
+            return false;
+        }
+        // Buscar contas
+        ContaM contaOrigem = buscarPorId(contaOrigemId);
+        ContaM contaDestino = buscarPorId(contaDestinoId);
+        // Verificar se as contas existem
+        if (contaOrigem == null || contaDestino == null) {
+            System.out.println("Uma das contas não existe.");
+            return false;
+        }
+        // Verificar se a conta de origem tem saldo suficiente
+        if (contaOrigem.getSaldo() < valor) {
+            System.out.println("Saldo insuficiente na conta de origem.");
+            return false;
+        }
+        // Realizar a transferência
+        contaOrigem.setSaldo(contaOrigem.getSaldo() - valor); // Debitar da conta de origem
+        contaDestino.setSaldo(contaDestino.getSaldo() + valor); // Creditar na conta de destino
+        // Atualizar as contas no banco de dados
+        boolean atualizadoOrigem = contaDAO.atualizar(contaOrigem);
+        boolean atualizadoDestino = contaDAO.atualizar(contaDestino);
+        return atualizadoOrigem && atualizadoDestino; 
+    }
 }
